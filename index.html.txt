@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT Coaching Log</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem auto;
+      max-width: 700px;
+      background: #f9f9f9;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0a7f5e;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #10a37f;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0e8a70;
+    }
+    #status {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>📥 GPT Coaching Log</h1>
+  <form id="log-form">
+    <label for="advisor_name">Advisor Name</label>
+    <input type="text" id="advisor_name" required>
+
+    <label for="firm">Firm</label>
+    <select id="firm" required>
+      <option value="">-- Select Firm --</option>
+      <option value="McAdams Group">McAdams Group</option>
+      <option value="Wood Financial">Wood Financial</option>
+    </select>
+
+    <label for="topic">Topic</label>
+    <input type="text" id="topic" placeholder="e.g., Pendulum Coaching, Evaluation Review" required>
+
+    <label for="summary">Summary (optional)</label>
+    <textarea id="summary" rows="4" placeholder="Brief summary..."></textarea>
+
+    <label for="transcript">Full GPT Transcript</label>
+    <textarea id="transcript" rows="10" placeholder="Paste full conversation here" required></textarea>
+
+    <button type="submit">Submit Log</button>
+    <p id="status"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('log-form');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        advisor_name: document.getElementById('advisor_name').value,
+        firm: document.getElementById('firm').value,
+        topic: document.getElementById('topic').value,
+        summary: document.getElementById('summary').value,
+        transcript: document.getElementById('transcript').value,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        const res = await fetch("https://hook.us2.make.com/hmd2lm3c4nt3u349nx9ns3ruuf7cg2e1", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          status.textContent = "✅ Log submitted successfully!";
+          form.reset();
+        } else {
+          status.textContent = "❌ Failed to submit log.";
+        }
+      } catch (err) {
+        status.textContent = "❌ Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

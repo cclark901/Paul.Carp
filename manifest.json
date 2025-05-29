@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "GPT Coaching Logger",
+  "version": "1.0",
+  "description": "Logs GPT chats to Google Sheets via Make.com",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_title": "Log GPT Chat"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
